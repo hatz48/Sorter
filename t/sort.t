@@ -9,6 +9,12 @@ sub init : Test(1) {
     new_ok 'Sorter';
 }
 
+sub swap : Tests {
+    my ($a, $b) = (1, 5);
+    Sorter::_swap \$a, \$b;
+    is_deeply [$a, $b], [5, 1];
+}
+
 sub values : Tests {
     my $sorter = Sorter->new;
     is_deeply [$sorter->get_values], [];
