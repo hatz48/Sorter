@@ -15,6 +15,13 @@ sub swap : Tests {
     is_deeply [$a, $b], [5, 1];
 }
 
+sub calc_pivot : Tests {
+    my $sorter = Sorter->new;
+    $sorter->set_values(3, 4, -2, 1, 5);
+    is_deeply [$sorter->_calc_pivot(0, 1)], [3];
+    is_deeply [$sorter->_calc_pivot(2, 3)], [-1];
+}
+
 sub values : Tests {
     my $sorter = Sorter->new;
     is_deeply [$sorter->get_values], [];
