@@ -9,7 +9,9 @@ sub new {
 
 sub set_values {
     my $self = shift;
-    $self->{list} = \@_;
+    my @list = @_;
+    $self->{list} = \@list;
+    # push(@{$self->{list}}, @_);
 }
 
 sub get_values {
@@ -27,8 +29,11 @@ sub _swap {
 
 sub _calc_pivot {
     my ($self, $start, $end) = @_;
-    my $sum = $self->{list}[$start] + $self->{list}[$end];
-    return $sum < 0 ? int($sum / 2) - 1 : int($sum / 2);
+    # if ($self->{list}[$start] eq $self->{list}[$end]) { return $self->{list}[$start]; }
+    # my $sum = $self->{list}[$start] + $self->{list}[$end];
+    # return $sum < 0 ? int($sum / 2) - 1 : int($sum / 2);
+    my $mid = int(($start + $end) / 2);
+    return $self->{list}[$mid];
 }
 
 sub _sort {
@@ -40,31 +45,7 @@ sub _sort {
     while ($low < $high) {
         while (($list->[$low] <= $pivot) && ($low < $high)) { $low++; }
         while (($list->[$high] > $pivot) && ($low < $high)) { $high--; }
-        # ($list->[$low], $list->[$high]) = ($list->[$high], $list->[$low]); # なぜだめ？
-        # my $tmp = $list->[$low];
-        # $list->[$low] = $list->[$high];
-        # $list->[$high] = $tmp; これだめらしい。。。
-
-        # これもだめ。。。
-        # my $tmpl = $list->[$low];
-        # my $tmph = $list->[$high];
-        # $list->[$low] = $tmph;
-        # $list->[$high] = $tmpl;
-
-        # これはコピーになるみたいね。。
-        # my @list = @$list;
-        # my $tmp = $list[$low];
-        # $list[$low] = $list[$high];
-        # $list[$high] = $tmp;
-
-        # なんかこれもだめだわ。
-        # _swap(\$list->[$low], \$list->[$high]);
-
-        # どうしても Modification of a read-only value attempt が出てしまう。
-        # my $tmpl = ${$list}[$low];
-        # my $tmph = ${$list}[$high];
-        # ${$list}[$low] = $tmph;
-        # ${$list}[$high] = $tmpl;
+        ($list->[$low], $list->[$high]) = ($list->[$high], $list->[$low]);
     }
     $self->_sort($start, $low - 1);
     $self->_sort($low,   $end);
@@ -75,6 +56,7 @@ sub sort {
     my $list = $self->{list};
     # my $length = @$list;
     my $length = $#$list;
+    if ($length == -1) { return; }
     $self->_sort(0, $length);
 }
 
