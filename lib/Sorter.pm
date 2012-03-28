@@ -9,7 +9,7 @@ sub new {
 
 sub set_values {
     my $self = shift;
-    my @list = @_;
+    my @list = @_; # いまだ配列とリストの違いがわかっていない。。
     $self->{list} = \@list;
     # push(@{$self->{list}}, @_);
 }
@@ -29,11 +29,11 @@ sub _swap {
 
 sub _calc_pivot {
     my ($self, $start, $end) = @_;
-    # if ($self->{list}[$start] eq $self->{list}[$end]) { return $self->{list}[$start]; }
-    # my $sum = $self->{list}[$start] + $self->{list}[$end];
-    # return $sum < 0 ? int($sum / 2) - 1 : int($sum / 2);
-    my $mid = int(($start + $end) / 2);
-    return $self->{list}[$mid];
+    if ($self->{list}[$start] eq $self->{list}[$end]) { return $self->{list}[$start]; }
+    my $sum = $self->{list}[$start] + $self->{list}[$end];
+    return $sum < 0 ? int($sum / 2) - 1 : int($sum / 2);
+    # my $mid = int(($start + $end) / 2);
+    # return $self->{list}[$mid];
 }
 
 sub _sort {
